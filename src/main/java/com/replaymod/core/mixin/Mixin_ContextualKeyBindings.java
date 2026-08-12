@@ -24,13 +24,8 @@ import java.util.Set;
  */
 @Mixin(KeyBinding.class)
 public class Mixin_ContextualKeyBindings {
-    //#if MC>=11200
-    //$$ @Shadow @Final private static Map<String, KeyBinding> KEYBIND_ARRAY;
-    //$$ @Unique private static Collection<KeyBinding> keyBindings() { return Mixin_ContextualKeyBindings.KEYBIND_ARRAY.values(); }
-    //#else
     @Shadow @Final private static List<KeyBinding> keybindArray;
     @Unique private static Collection<KeyBinding> keyBindings() { return Mixin_ContextualKeyBindings.keybindArray; }
-    //#endif
 
     @Unique private static final List<KeyBinding> temporarilyRemoved = new ArrayList<>();
 
@@ -67,11 +62,7 @@ public class Mixin_ContextualKeyBindings {
     @Inject(method = "resetKeyBindingArrayAndHash", at = @At("RETURN"))
     private static void postContextualKeyBindings(CallbackInfo ci) {
         for (KeyBinding keyBinding : temporarilyRemoved) {
-            //#if MC>=11200
-            //$$ Mixin_ContextualKeyBindings.KEYBIND_ARRAY.put(keyBinding.getKeyDescription(), keyBinding);
-            //#else
             keyBindings().add(keyBinding);
-            //#endif
         }
         temporarilyRemoved.clear();
     }

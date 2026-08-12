@@ -81,13 +81,8 @@ public abstract class AbstractTimelinePlayer extends EventRegistrations {
 
         //noinspection ConstantConditions
         TimerAccessor timerA = (TimerAccessor) timer;
-        //#if MC>=11200
-        //$$ timerA.setTickLength(WrappedTimer.DEFAULT_MS_PER_TICK);
-        //$$ timer.renderPartialTicks = timer.elapsedTicks = 0;
-        //#else
         timer.timerSpeed = 1;
         timer.elapsedPartialTicks = timer.elapsedTicks = 0;
-        //#endif
         return future = settableFuture = SettableFuture.create();
     }
 

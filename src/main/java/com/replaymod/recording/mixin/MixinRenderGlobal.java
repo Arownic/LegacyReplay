@@ -7,10 +7,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-//#if MC>=10800
-//$$ import net.minecraft.util.BlockPos;
-//#endif
-
 @Mixin(RenderGlobal.class)
 public abstract class MixinRenderGlobal implements RecordingEventHandler.RecordingEventSender {
 
@@ -26,26 +22,10 @@ public abstract class MixinRenderGlobal implements RecordingEventHandler.Recordi
         return recordingEventHandler;
     }
 
-    //#if MC>=10800
-    //$$ @Inject(method = "sendBlockBreakProgress", at = @At("HEAD"))
-    //#else
     @Inject(method = "destroyBlockPartially", at = @At("HEAD"))
-    //#endif
-    public void saveBlockBreakProgressPacket(int breakerId,
-                                             //#if MC>=10800
-                                             //$$ BlockPos pos,
-                                             //#else
-                                             int x, int y, int z,
-                                             //#endif
-                                             int progress, CallbackInfo info) {
+    public void saveBlockBreakProgressPacket(int breakerId, int x, int y, int z, int progress, CallbackInfo info) {
         if (recordingEventHandler != null) {
-            recordingEventHandler.onBlockBreakAnim(breakerId,
-                    //#if MC>=10800
-                    //$$ pos,
-                    //#else
-                    x, y, z,
-                    //#endif
-                    progress);
+            recordingEventHandler.onBlockBreakAnim(breakerId, x, y, z, progress);
         }
     }
 }

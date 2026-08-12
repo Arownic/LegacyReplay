@@ -5,18 +5,7 @@
   "server": [],
   "client": [
     "Mixin_ContextualKeyBindings",
-    //#if MC>=11400
-    //$$ "AbstractButtonWidgetAccessor",
-    //$$ "MixinGameRenderer",
-    //$$ "Mixin_HideDynamicResourcePacks",
-    //$$ "Mixin_RegisterDynamicResourcePacks",
-    //#endif
-    //#if MC>=11400
-    //$$ "MixinMouse",
-    //#endif
-    //#if MC<10800
     "ResourcePackRepositoryAccessor",
-    //#endif
     "MixinKeyboardListener",
     "MixinMinecraft",
     "GuiMainMenuAccessor",

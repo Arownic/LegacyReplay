@@ -13,13 +13,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-//#if MC>=11200
-//$$ import io.netty.channel.ChannelConfig;
-//$$ import net.minecraft.network.EnumConnectionState;
-//$$ import net.minecraft.network.NetworkManager;
-//$$ import org.spongepowered.asm.mixin.injection.Redirect;
-//#endif
-
 @Mixin(value = NetworkDispatcher.class, remap = false)
 public abstract class MixinNetworkDispatcher {
 
@@ -51,19 +44,4 @@ public abstract class MixinNetworkDispatcher {
                     "replaymod_filter", new FMLHandshakeFilter());
         }
     }
-
-    //#if MC>=11200
-    //$$ @Redirect(method = "clientListenForServerHandshake", at = @At(value = "INVOKE", remap = true, target =
-    //$$         "Lnet/minecraft/network/NetworkManager;setConnectionState(Lnet/minecraft/network/EnumConnectionState;)V"))
-    //$$ public void replayModRecording_raceConditionWorkAround1(NetworkManager self, EnumConnectionState ignored) { }
-    //$$
-    //$$ @Redirect(method = "insertIntoChannel", at = @At(value = "INVOKE", target =
-    //$$         "Lio/netty/channel/ChannelConfig;setAutoRead(Z)Lio/netty/channel/ChannelConfig;"))
-    //$$ public ChannelConfig replayModRecording_raceConditionWorkAround2(ChannelConfig self, boolean autoRead) {
-    //$$     if (side == Side.CLIENT) {
-    //$$         autoRead = false;
-    //$$     }
-    //$$     return self.setAutoRead(autoRead);
-    //$$ }
-    //#endif
 }

@@ -12,10 +12,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
+import static com.replaymod.compat.ReplayModCompat.LOGGER;
+
 @Mixin(targets = "mapwriter.forge.MwForge")
 public abstract class MixinMwForge {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @Inject(
             method = "onConnected(Lcpw/mods/fml/common/network/FMLNetworkEvent$ClientConnectedToServerEvent;)V",

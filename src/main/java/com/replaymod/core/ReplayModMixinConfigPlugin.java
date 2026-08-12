@@ -9,27 +9,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-//#if MC>=11400
-//$$ import java.io.InputStream;
-//#else
 import net.minecraft.launchwrapper.Launch;
-//#endif
 
-//#if MC>=11200
-//$$ import org.objectweb.asm.tree.ClassNode;
-//#else
 import org.spongepowered.asm.lib.tree.ClassNode;
-//#endif
 
 public class ReplayModMixinConfigPlugin implements IMixinConfigPlugin {
     static boolean hasClass(String name) throws IOException {
-        //#if MC>=11400
-        //$$ InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(name.replace('.', '/') + ".class");
-        //$$ if (stream != null) stream.close();
-        //$$ return stream != null;
-        //#else
         return Launch.classLoader.getClassBytes(name) != null;
-        //#endif
     }
 
     private final Logger logger = LogManager.getLogger("replaymod/mixin");
@@ -41,12 +27,6 @@ public class ReplayModMixinConfigPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if (hasOF) {
-            //#if MC>=11500
-            //$$ // OF renames the lambda method name and I see no way we can target it now, so we give up on that patch
-            //$$ if (mixinClassName.endsWith("MixinTileEntityEndPortalRenderer")) return false;
-            //#endif
-        }
         if (mixinClassName.endsWith("_OF")) return hasOF;
         if (mixinClassName.endsWith("_NoOF")) return !hasOF;
         return true;

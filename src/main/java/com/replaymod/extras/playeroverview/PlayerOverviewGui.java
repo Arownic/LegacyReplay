@@ -23,15 +23,7 @@ import de.johni0702.minecraft.gui.utils.lwjgl.ReadableDimension;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
-//#if MC>=10904
-//$$ import net.minecraft.init.MobEffects;
-//#else
 import net.minecraft.potion.Potion;
-//#endif
-
-//#if MC>=10800
-//$$ import net.minecraft.entity.player.EnumPlayerModelParts;
-//#endif
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -101,29 +93,13 @@ public class PlayerOverviewGui extends GuiScreen implements Closeable {
                         public void draw(GuiRenderer renderer, ReadableDimension size, RenderInfo renderInfo) {
                             renderer.bindTexture(texture);
                             renderer.drawTexturedRect(0, 0, 8, 8, 16, 16, 8, 8, 64, 64);
-                            //#if MC>=10809
-                            //$$ if (p.isWearing(EnumPlayerModelParts.HAT)) {
-                            //#else
-                            //#if MC>=10800
-                            //$$ if (p.func_175148_a(EnumPlayerModelParts.HAT)) {
-                            //#else
                             {
-                            //#endif
-                            //#endif
                                 renderer.drawTexturedRect(0, 0, 40, 8, size.getWidth(), size.getHeight(), 8, 8, 64, 64);
                             }
                         }
                     }.setSize(16, 16),
                     new GuiLabel().setText(
-                            //#if MC>=11400
-                            //$$ p.getName().getUnformattedComponentText()
-                            //#else
-                            //#if MC>=10800
-                            //$$ p.getName()
-                            //#else
                             p.getDisplayName()
-                            //#endif
-                            //#endif
                     ).setColor(isSpectator(p) ? Colors.DKGREY : Colors.WHITE)
             ).onClick(new Runnable() {
                 @Override
@@ -168,11 +144,7 @@ public class PlayerOverviewGui extends GuiScreen implements Closeable {
     }
 
     private static boolean isSpectator(EntityPlayer e) {
-        //#if MC>=10904
-        //$$ return e.isInvisible() && e.getActivePotionEffect(MobEffects.INVISIBILITY) == null;
-        //#else
         return e.isInvisible() && e.getActivePotionEffect(Potion.invisibility) == null;
-        //#endif
     }
 
     private static final class PlayerComparator implements Comparator<EntityPlayer> {
@@ -180,15 +152,7 @@ public class PlayerOverviewGui extends GuiScreen implements Closeable {
         public int compare(EntityPlayer o1, EntityPlayer o2) {
             if (isSpectator(o1) && !isSpectator(o2)) return 1;
             if (isSpectator(o2) && !isSpectator(o1)) return -1;
-            //#if MC>=11400
-            //$$ return o1.getName().getUnformattedComponentText().compareToIgnoreCase(o2.getName().getUnformattedComponentText());
-            //#else
-            //#if MC>=10800
-            //$$ return o1.getName().compareToIgnoreCase(o2.getName());
-            //#else
             return o1.getDisplayName().compareToIgnoreCase(o2.getDisplayName());
-            //#endif
-            //#endif
         }
     }
 }

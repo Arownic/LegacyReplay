@@ -26,12 +26,4 @@ public abstract class MixinNetHandlerLoginClient {
     public void replayModRecording_initiateRecording(CallbackInfo cb) {
         ReplayModRecording.instance.initiateRecording(this.field_147393_d);
     }
-
-    // Race condition in Forge's networking (not sure if still present in 1.13)
-    //#if MC>=11200 && MC<11400
-    //$$ @Inject(method = "handleLoginSuccess", at=@At("RETURN"))
-    //$$ public void replayModRecording_raceConditionWorkAround(CallbackInfo cb) {
-    //$$     ((NetworkManagerAccessor) this.networkManager).getChannel().config().setAutoRead(true);
-    //$$ }
-    //#endif
 }

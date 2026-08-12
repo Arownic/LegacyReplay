@@ -10,13 +10,6 @@ public interface TimerAccessor {
     long getLastSyncSysClock();
     @Accessor
     void setLastSyncSysClock(long value);
-
-    //#if MC>=11200
-    //$$ @Accessor
-    //$$ float getTickLength();
-    //$$ @Accessor
-    //$$ void setTickLength(float value);
-    //#else
     @Accessor
     float getTimerSpeed();
     @Accessor
@@ -41,5 +34,4 @@ public interface TimerAccessor {
     long getCounter();
     @Accessor("field_74285_i")
     void setCounter(long value);
-    //#endif
 }

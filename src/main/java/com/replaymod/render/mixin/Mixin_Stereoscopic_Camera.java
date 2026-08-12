@@ -11,11 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityRenderer.class)
 public abstract class Mixin_Stereoscopic_Camera implements EntityRendererHandler.IEntityRenderer {
-    //#if MC>=10800
-    //$$ @Inject(method = "setupCameraTransform", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlStateManager;loadIdentity()V", shift = At.Shift.AFTER, ordinal = 0))
-    //#else
     @Inject(method = "setupCameraTransform", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glLoadIdentity()V", shift = At.Shift.AFTER, ordinal = 0, remap = false))
-    //#endif
     private void replayModRender_setupStereoscopicProjection(CallbackInfo ci) {
         if (replayModRender_getHandler() != null) {
             if (replayModRender_getHandler().data == StereoscopicOpenGlFrameCapturer.Data.LEFT_EYE) {
@@ -26,11 +22,7 @@ public abstract class Mixin_Stereoscopic_Camera implements EntityRendererHandler
         }
     }
 
-    //#if MC>=10800
-    //$$ @Inject(method = "setupCameraTransform", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlStateManager;loadIdentity()V", shift = At.Shift.AFTER, ordinal = 1))
-    //#else
     @Inject(method = "setupCameraTransform", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glLoadIdentity()V", shift = At.Shift.AFTER, ordinal = 1, remap = false))
-    //#endif
     private void replayModRender_setupStereoscopicModelView(CallbackInfo ci) {
         if (replayModRender_getHandler() != null) {
             if (replayModRender_getHandler().data == StereoscopicOpenGlFrameCapturer.Data.LEFT_EYE) {

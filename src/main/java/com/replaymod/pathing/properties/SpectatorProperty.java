@@ -39,13 +39,9 @@ public class SpectatorProperty extends AbstractProperty<Integer> {
         // Lookup entity by id, returns null if an entity with the id does not exists
         Entity target = world.getEntityByID(value);
         // Spectate entity, when called with null, returns to camera
-        //#if MC>=10800
-        //$$ handler.spectateEntity(target);
-        //#else
         if (target instanceof EntityLivingBase) {
             handler.spectateEntity(((EntityLivingBase) target));
         }
-        //#endif
     }
 
     @Override

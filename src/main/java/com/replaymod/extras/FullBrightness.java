@@ -24,11 +24,7 @@ public class FullBrightness extends EventRegistrations implements Extra {
 
     private Minecraft mc;
     private boolean active;
-    //#if MC>=11400
-    //$$ private double originalGamma;
-    //#else
     private float originalGamma;
-    //#endif
 
     @Override
     public void register(final ReplayMod mod) throws Exception {
@@ -41,11 +37,7 @@ public class FullBrightness extends EventRegistrations implements Extra {
             public void run() {
                 active = !active;
                 // need to tick once to update lightmap when replay is paused
-                //#if MC>=11400
-                //$$ mod.getMinecraft().gameRenderer.tick();
-                //#else
                 mod.getMinecraft().entityRenderer.updateRenderer();
-                //#endif
                 ReplayHandler replayHandler = module.getReplayHandler();
                 if (replayHandler != null) {
                     updateIndicator(replayHandler.getOverlay());
@@ -95,11 +87,7 @@ public class FullBrightness extends EventRegistrations implements Extra {
             }
             if (type == Type.NightVision || type == Type.Both) {
                 if (mc.thePlayer != null) {
-                    mc.thePlayer.removePotionEffect(Potion.nightVision
-                            //#if MC<=10809
-                            .id
-                            //#endif
-                    );
+                    mc.thePlayer.removePotionEffect(Potion.nightVision.id);
                 }
             }
         }

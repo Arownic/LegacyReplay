@@ -33,19 +33,11 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-//#if MC>=11400
-//#else
 import org.lwjgl.input.Keyboard;
-//#endif
 
-//#if MC>=10800
-//$$ import net.minecraft.client.network.NetworkPlayerInfo;
-//$$ import net.minecraft.client.resources.DefaultPlayerSkin;
-//#else
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.player.EntityPlayer;
-//#endif
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -182,30 +174,15 @@ public class Utils {
     }
 
     public static ResourceLocation getResourceLocationForPlayerUUID(UUID uuid) {
-        //#if MC>=10800
-        //$$ NetworkPlayerInfo info = getMinecraft().getNetHandler().getPlayerInfo(uuid);
-        //$$ ResourceLocation skinLocation;
-        //$$ if (info != null && info.hasLocationSkin()) {
-        //$$     skinLocation = info.getLocationSkin();
-        //$$ } else {
-        //$$     skinLocation = DefaultPlayerSkin.getDefaultSkin(uuid);
-        //$$ }
-        //$$ return skinLocation;
-        //#else
         EntityPlayer player = Minecraft.getMinecraft().theWorld.getPlayerEntityByUUID(uuid);
         if (player != null || !(player instanceof AbstractClientPlayer)) {
             return AbstractClientPlayer.locationStevePng;
         }
         return ((AbstractClientPlayer) player).getLocationSkin();
-        //#endif
     }
 
     public static boolean isCtrlDown() {
-        //#if MC>=11400
-        //$$ return Screen.hasControlDown();
-        //#else
         return Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
-        //#endif
     }
 
     public static <T> void addCallback(ListenableFuture<T> future, Consumer<T> onSuccess, Consumer<Throwable> onFailure) {

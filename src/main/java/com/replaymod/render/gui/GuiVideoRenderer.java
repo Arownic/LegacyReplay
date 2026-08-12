@@ -21,10 +21,6 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
-//#if MC>=11400
-//$$ import net.minecraft.client.renderer.texture.NativeImage;
-//#endif
-
 import java.nio.ByteBuffer;
 
 public class GuiVideoRenderer extends GuiScreen implements Tickable {
@@ -232,11 +228,7 @@ public class GuiVideoRenderer extends GuiScreen implements Tickable {
         final int videoHeight = videoSize.getHeight();
 
         if (previewTexture == null) {
-            //#if MC>=11400
-            //$$ previewTexture = new DynamicTexture(videoWidth, videoHeight, true);
-            //#else
             previewTexture = new DynamicTexture(videoWidth, videoHeight);
-            //#endif
         }
 
         if (previewTextureDirty) {
@@ -269,12 +261,7 @@ public class GuiVideoRenderer extends GuiScreen implements Tickable {
         if (previewCheckbox.isChecked() && previewTexture != null) {
             buffer.mark();
             synchronized (this) {
-                //#if MC>=11400
-                //$$ NativeImage data = previewTexture.getTextureData();
-                //$$ assert data != null;
-                //#else
                 int[] data = previewTexture.getTextureData();
-                //#endif
                 // Note: Optifine changes the texture data array to be three times as long (for use by shaders),
                 //       we only want to initialize the first third and since we use our frame size, not the array size,
                 //       we're good to go.
@@ -285,13 +272,8 @@ public class GuiVideoRenderer extends GuiScreen implements Tickable {
                         int g = buffer.get() & 0xff;
                         int r = buffer.get() & 0xff;
                         buffer.get(); // alpha
-                        //#if MC>=11400
-                        //$$ int value = 0xff << 24 | b << 16 | g << 8 |  r;
-                        //$$ data.setPixelRGBA(x, y, value); // actually takes ABGR, not RGBA
-                        //#else
                         int value = 0xff << 24 | r << 16 | g << 8 |  b;
                         data[y * width + x] = value;
-                        //#endif
                     }
                 }
                 previewTextureDirty = true;

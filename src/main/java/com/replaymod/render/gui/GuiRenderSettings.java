@@ -52,10 +52,6 @@ import java.util.Map;
 import static com.replaymod.core.utils.Utils.error;
 import static com.replaymod.render.ReplayModRender.LOGGER;
 
-//#if MC>=11400
-//$$ import net.minecraft.util.text.TranslationTextComponent;
-//#endif
-
 public class GuiRenderSettings extends AbstractGuiPopup<GuiRenderSettings> {
     { disablePopupBackground(); }
     public final GuiPanel contentPanel = new GuiPanel(popup).setBackgroundColor(new Color(0, 0, 0, 230));
@@ -244,14 +240,8 @@ public class GuiRenderSettings extends AbstractGuiPopup<GuiRenderSettings> {
             } catch (FFmpegWriter.NoFFmpegException e) {
                 LOGGER.error("Rendering video:", e);
                 GuiErrorScreen errorScreen = new GuiErrorScreen(
-                        //#if MC>=11400
-                        //$$ getScreen()::display,
-                        //$$ new TranslationTextComponent("replaymod.gui.rendering.error.title"),
-                        //$$ new TranslationTextComponent("replaymod.gui.rendering.error.message")
-                        //#else
                         I18n.format("replaymod.gui.rendering.error.title"),
                         I18n.format("replaymod.gui.rendering.error.message")
-                        //#endif
                 );
                 getMinecraft().displayGuiScreen(errorScreen);
             } catch (FFmpegWriter.FFmpegStartupException e) {

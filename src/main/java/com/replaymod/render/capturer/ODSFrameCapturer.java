@@ -84,23 +84,13 @@ public class ODSFrameCapturer implements FrameCapturer<ODSOpenGlFrame> {
     private void bindProgram() {
         shaderProgram.use();
         setTexture("texture", 0);
-        //#if MC>=11500
-        //$$ setTexture("overlay", 1);
-        //$$ setTexture("lightMap", 2);
-        //#else
         setTexture("lightMap", 1);
-        //#endif
 
         renderStateEvents = new EventRegistrations();
         Program.Uniform[] texture2DUniforms = new Program.Uniform[]{
                 shaderProgram.getUniformVariable("textureEnabled"),
-                //#if MC>=11500
-                //$$ shaderProgram.getUniformVariable("overlayEnabled"),
-                //$$ shaderProgram.getUniformVariable("lightMapEnabled"),
-                //#else
                 shaderProgram.getUniformVariable("lightMapEnabled"),
                 shaderProgram.getUniformVariable("overlayEnabled"),
-                //#endif
         };
         renderStateEvents.on(Texture2DStateCallback.EVENT, (id, enabled) -> {
             if (id >= 0 && id < texture2DUniforms.length) {
@@ -170,11 +160,7 @@ public class ODSFrameCapturer implements FrameCapturer<ODSOpenGlFrame> {
             pushMatrix();
             frameBuffer().bindFramebuffer(true);
 
-            clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT
-                    //#if MC>=11400
-                    //$$ , false
-                    //#endif
-            );
+            clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             enableTexture2D();
 
             directionVariable.set(captureData.ordinal());

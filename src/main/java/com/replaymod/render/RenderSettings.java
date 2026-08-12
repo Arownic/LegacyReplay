@@ -43,12 +43,9 @@ public class RenderSettings {
 
         @SuppressWarnings("RedundantIfStatement")
         public boolean isSupported() {
-            //#if MC<10800 || MC>=11500
             if (this == BLEND) {
                 return false;
             }
-            //#endif
-
             return true;
         }
 
@@ -105,12 +102,7 @@ public class RenderSettings {
             if (this == BLEND) {
                 return RenderMethod.BLEND.isSupported();
             } else if (this == EXR) {
-                // Need LJWGL 3
-                //#if MC>=11400
-                //$$ return true;
-                //#else
                 return false;
-                //#endif
             } else {
                 return true;
             }

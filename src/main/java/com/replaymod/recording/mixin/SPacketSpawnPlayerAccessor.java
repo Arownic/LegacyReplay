@@ -7,10 +7,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(S0CPacketSpawnPlayer.class)
 public interface SPacketSpawnPlayerAccessor {
-    //#if MC<11500
     @Accessor("field_148960_i")
     DataWatcher getDataManager();
     @Accessor("field_148960_i")
     void setDataManager(DataWatcher value);
-    //#endif
 }

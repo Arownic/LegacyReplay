@@ -10,11 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Inject;
 
-//#if MC>=10800
-//$$ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-//#else
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-//#endif
 
 /**
  * This mixin prevents players that are hidden in the PlayerOverview from being rendered.
@@ -33,19 +29,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(value = Render.class, priority = 1200)
 public abstract class MixinRender {
-    //#if MC>=10800
-    //$$ @Inject(method = "shouldRender", at=@At("HEAD"), cancellable = true)
-    //$$ public void replayModExtras_isPlayerHidden(Entity entity, @Coerce Object camera, double camX, double camY, double camZ, CallbackInfoReturnable<Boolean> ci) {
-    //$$     ReplayModExtras.instance.get(PlayerOverview.class).ifPresent(playerOverview -> {
-    //$$         if (entity instanceof EntityPlayer) {
-    //$$             EntityPlayer player = (EntityPlayer) entity;
-    //$$             if (playerOverview.isHidden(player.getUniqueID())) {
-    //$$                 ci.setReturnValue(false);
-    //$$             }
-    //$$         }
-    //$$     });
-    //$$ }
-    //#else
     @Inject(method = "doRenderShadowAndFire", at=@At("HEAD"), cancellable = true)
     private void replayModExtras_isPlayerHidden(Entity entity, double x, double y, double z, float yaw, float time, CallbackInfo ci) {
         ReplayModExtras.instance.get(PlayerOverview.class).ifPresent(playerOverview -> {
@@ -57,5 +40,4 @@ public abstract class MixinRender {
             }
         });
     }
-    //#endif
 }

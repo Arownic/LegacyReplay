@@ -7,12 +7,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(EntityPlayer.class)
 public interface EntityPlayerAccessor extends EntityLivingBaseAccessor {
-    //#if MC>=10904
-    //$$ @Accessor
-    //$$ ItemStack getItemStackMainHand();
-    //$$ @Accessor
-    //$$ void setItemStackMainHand(ItemStack value);
-    //#else
     @Accessor
     ItemStack getItemInUse();
     @Accessor
@@ -21,5 +15,4 @@ public interface EntityPlayerAccessor extends EntityLivingBaseAccessor {
     int getItemInUseCount();
     @Accessor
     void setItemInUseCount(int value);
-    //#endif
 }

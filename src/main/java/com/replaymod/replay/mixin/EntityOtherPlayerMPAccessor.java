@@ -1,4 +1,3 @@
-//#if MC<11400
 package com.replaymod.replay.mixin;
 
 import net.minecraft.client.entity.EntityOtherPlayerMP;
@@ -18,4 +17,3 @@ public interface EntityOtherPlayerMPAccessor {
     @Accessor
     double getOtherPlayerMPPitch();
 }
-//#endif

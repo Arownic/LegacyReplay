@@ -7,13 +7,11 @@ import org.spongepowered.asm.mixin.Mixins;
 
 import cpw.mods.fml.relauncher.CoreModManager;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
-//#if MC<10800
 import com.replaymod.core.asm.GLErrorTransformer;
 import com.replaymod.core.asm.GLStateTrackerTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
-//#endif
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -47,14 +45,8 @@ public class LoadingPlugin implements IFMLLoadingPlugin {
                 if (file.isFile()) {
                     // This forces forge to reexamine the jar file for FML mods
                     // Should eventually be handled by Mixin itself, maybe?
-                    //#if MC>=10809
-                    //$$ CoreModManager.getIgnoredMods().remove(file.getName());
-                    //#else
                     CoreModManager.getLoadedCoremods().remove(file.getName());
-                    //#if MC<=10710
                     CoreModManager.getReparseableCoremods().add(file.getName());
-                    //#endif
-                    //#endif
                 }
             } catch (URISyntaxException e) {
                 e.printStackTrace();
@@ -67,17 +59,12 @@ public class LoadingPlugin implements IFMLLoadingPlugin {
 
     @Override
     public String[] getASMTransformerClass() {
-        //#if MC>=10800
-        //$$ return new String[]{
-        //$$ };
-        //#else
         List<String> transformers = new ArrayList<>();
         if ("true".equals(System.getProperty("replaymod.glerrors", "false"))) {
             transformers.add(GLErrorTransformer.class.getName());
         }
         transformers.add(GLStateTrackerTransformer.class.getName());
         return transformers.stream().toArray(String[]::new);
-        //#endif
     }
 
     @Override

@@ -66,11 +66,7 @@ import java.util.stream.Collectors;
 import static com.replaymod.replay.ReplayModReplay.LOGGER;
 import static de.johni0702.minecraft.gui.versions.MCVer.getFontRenderer;
 
-//#if MC>=11400
-//$$ import net.minecraft.util.text.TranslationTextComponent;
-//#else
 import net.minecraft.client.resources.I18n;
-//#endif
 
 public class GuiReplayViewer extends GuiScreen {
     private final ReplayModReplay mod;
@@ -161,14 +157,8 @@ public class GuiReplayViewer extends GuiScreen {
                     // We failed (might also be their OS)
                     e.printStackTrace();
                     getMinecraft().displayGuiScreen(new GuiErrorScreen(
-                            //#if MC>=11400
-                            //$$ GuiReplayViewer.this::display,
-                            //$$ new TranslationTextComponent("replaymod.gui.viewer.delete.failed1"),
-                            //$$ new TranslationTextComponent("replaymod.gui.viewer.delete.failed2")
-                            //#else
                             I18n.format("replaymod.gui.viewer.delete.failed1"),
                             I18n.format("replaymod.gui.viewer.delete.failed2")
-                            //#endif
                     ));
                     return;
                 }

@@ -53,15 +53,8 @@ import net.minecraft.crash.CrashReport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-//#if MC>=11400
-//#else
 import org.lwjgl.input.Keyboard;
-//#if MC>=10800
-//$$ import net.minecraftforge.fml.common.Loader;
-//#else
 import cpw.mods.fml.common.Loader;
-//#endif
-//#endif
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

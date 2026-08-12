@@ -17,11 +17,7 @@ import cpw.mods.fml.common.network.handshake.FMLHandshakeMessage;
 public class FMLHandshakeFilter extends SimpleChannelInboundHandler<FMLHandshakeMessage> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FMLHandshakeMessage msg) throws Exception {
-        //#if MC>=10800
-        //$$ if (!(msg instanceof FMLHandshakeMessage.RegistryData)) {
-        //#else
         if (!(msg instanceof FMLHandshakeMessage.ModIdData)) {
-        //#endif
             // Pass on everything but RegistryData messages
             ctx.fireChannelRead(msg);
         }

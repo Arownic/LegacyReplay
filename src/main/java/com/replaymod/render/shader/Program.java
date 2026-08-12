@@ -8,11 +8,7 @@ import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.ARBVertexShader;
 import org.lwjgl.opengl.GL11;
 
-//#if MC>=11400
-//$$ import net.minecraft.resources.IResource;
-//#else
 import net.minecraft.client.resources.IResource;
-//#endif
 
 import java.io.InputStream;
 

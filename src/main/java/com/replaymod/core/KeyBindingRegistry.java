@@ -35,9 +35,6 @@ import java.util.function.Supplier;
 
 public class KeyBindingRegistry extends EventRegistrations {
     private static final String CATEGORY = "replaymod.title";
-    //#if FABRIC>=1
-    //$$ static { net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry.INSTANCE.addCategory(CATEGORY); }
-    //#endif
 
     private final Map<String, Binding> bindings = new HashMap<>();
     private Set<KeyBinding> onlyInReplay = new HashSet<>();
@@ -58,18 +55,8 @@ public class KeyBindingRegistry extends EventRegistrations {
     private Binding registerKeyBinding(String name, int keyCode, boolean onlyInRepay) {
         Binding binding = bindings.get(name);
         if (binding == null) {
-            //#if FABRIC>=1
-            //$$ if (keyCode == 0) {
-            //$$     keyCode = -1;
-            //$$ }
-            //$$ Identifier id = new Identifier(MOD_ID, name.substring(LangResourcePack.LEGACY_KEY_PREFIX.length()));
-            //$$ FabricKeyBinding fabricKeyBinding = FabricKeyBinding.Builder.create(id, InputUtil.Type.KEYSYM, keyCode, CATEGORY).build();
-            //$$ net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry.INSTANCE.register(fabricKeyBinding);
-            //$$ KeyBinding keyBinding = fabricKeyBinding;
-            //#else
             KeyBinding keyBinding = new KeyBinding(name, keyCode, CATEGORY);
             ClientRegistry.registerKeyBinding(keyBinding);
-            //#endif
             binding = new Binding(name, keyBinding);
             bindings.put(name, binding);
             if (onlyInRepay) {
@@ -169,11 +156,7 @@ public class KeyBindingRegistry extends EventRegistrations {
         }
 
         public boolean isBound() {
-            //#if MC>=11400
-            //$$ return !keyBinding.isInvalid();
-            //#else
             return keyBinding.getKeyCode() != 0;
-            //#endif
         }
 
         public void trigger() {

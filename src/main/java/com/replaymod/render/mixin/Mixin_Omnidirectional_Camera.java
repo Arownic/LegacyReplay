@@ -14,21 +14,10 @@ public abstract class Mixin_Omnidirectional_Camera implements EntityRendererHand
         replayModRender_gluPerspective(fovY, aspect, zNear, zFar);
     }
 
-    //#if MC>=10800
-    //$$ @Redirect(method = "renderWorldPass", at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V", remap = false))
-    //#else
     @Redirect(method = "renderHand", at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V", remap = false))
-    //#endif
     private void replayModRender_gluPerspective$1(float fovY, float aspect, float zNear, float zFar) {
         replayModRender_gluPerspective(fovY, aspect, zNear, zFar);
     }
-
-    //#if MC>=10800
-    //$$ @Redirect(method = "renderCloudsCheck", at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V", remap = false))
-    //$$ private void replayModRender_gluPerspective$2(float fovY, float aspect, float zNear, float zFar) {
-    //$$     replayModRender_gluPerspective(fovY, aspect, zNear, zFar);
-    //$$ }
-    //#endif
 
     private void replayModRender_gluPerspective(float fovY, float aspect, float zNear, float zFar) {
         if (replayModRender_getHandler() != null && replayModRender_getHandler().omnidirectional) {

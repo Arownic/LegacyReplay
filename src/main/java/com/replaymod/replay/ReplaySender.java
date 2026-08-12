@@ -16,11 +16,7 @@ public interface ReplaySender {
     public default boolean paused() {
         Minecraft mc = getMinecraft();
         TimerAccessor timer = (TimerAccessor) ((MinecraftAccessor) mc).getTimer();
-        //#if MC>=11200
-        //$$ return timer.getTickLength() == Float.POSITIVE_INFINITY;
-        //#else
         return timer.getTimerSpeed() == 0;
-        //#endif
     }
 
     void setReplaySpeed(double factor);

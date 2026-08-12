@@ -25,11 +25,7 @@ import joptsimple.internal.Strings;
 import net.minecraft.client.resources.I18n;
 import org.apache.commons.io.IOUtils;
 
-//#if MC>=11400
-//$$ import net.minecraft.util.Util;
-//#else
 import org.lwjgl.Sys;
-//#endif
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;

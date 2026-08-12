@@ -8,57 +8,19 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.Util;
 
-//#if MC>=11600
-//$$ import net.minecraft.resource.ResourcePackSource;
-//#endif
-
-//#if MC>=11400
-//$$ import com.replaymod.render.mixin.MainWindowAccessor;
-//$$ import net.minecraft.util.SharedConstants;
-//$$ import net.minecraft.client.shader.Framebuffer;
-//$$ import net.minecraft.client.gui.widget.button.Button;
-//$$ import net.minecraft.client.gui.widget.Widget;
-//$$
-//$$ import java.util.concurrent.CompletableFuture;
-//$$
-//#if MC>=11600
-//$$ import net.minecraft.text.TranslatableText;
-//#else
-//$$ import net.minecraft.client.resources.I18n;
-//#endif
-//#else
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.realms.RealmsSharedConstants;
-//#endif
 
-//#if MC>=11400
-//$$ import net.minecraft.client.util.InputMappings;
-//$$ import org.lwjgl.glfw.GLFW;
-//#else
 import net.minecraft.client.resources.ResourcePackRepository;
 import cpw.mods.fml.client.FMLClientHandler;
 import org.apache.logging.log4j.LogManager;
 import org.lwjgl.Sys;
 import java.awt.Desktop;
 import java.io.IOException;
-//#endif
 
-//#if MC>=10904
-//$$ import com.replaymod.render.blend.mixin.ParticleAccessor;
-//$$ import net.minecraft.client.particle.Particle;
-//$$ import net.minecraft.util.math.Vec3d;
-//#endif
-
-//#if MC>=10800
-//$$ import net.minecraft.client.renderer.vertex.VertexFormat;
-//$$ import net.minecraft.client.renderer.vertex.VertexFormatElement;
-//#if MC<11500
-//$$ import net.minecraft.client.renderer.chunk.ChunkCompileTaskGenerator;
-//#endif
-//#else
 import com.replaymod.core.mixin.ResourcePackRepositoryAccessor;
 import io.netty.handler.codec.DecoderException;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -66,7 +28,6 @@ import net.minecraft.client.resources.FileResourcePack;
 import net.minecraft.network.PacketBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
-//#endif
 
 import java.io.File;
 import java.net.URI;
@@ -79,11 +40,7 @@ import java.util.Optional;
  */
 public class MCVer {
     public static int getProtocolVersion() {
-        //#if MC>=11400
-        //$$ return SharedConstants.getVersion().getProtocolVersion();
-        //#else
         return RealmsSharedConstants.NETWORK_PROTOCOL_VERSION;
-        //#endif
     }
 
     public static PacketTypeRegistry getPacketTypeRegistry(boolean loginPhase) {
@@ -94,26 +51,11 @@ public class MCVer {
     }
 
     public static void resizeMainWindow(Minecraft mc, int width, int height) {
-        //#if MC>=11400
-        //$$ Framebuffer fb = mc.getFramebuffer();
-        //$$ if (fb.framebufferWidth != width || fb.framebufferHeight != height) {
-        //$$     fb.func_216491_a(width, height, false);
-        //$$ }
-        //$$ //noinspection ConstantConditions
-        //$$ MainWindowAccessor mainWindow = (MainWindowAccessor) (Object) mc.mainWindow;
-        //$$ mainWindow.setFramebufferWidth(width);
-        //$$ mainWindow.setFramebufferHeight(height);
-        //#if MC>=11500
-        //$$ mc.gameRenderer.onResized(width, height);
-        //#endif
-        //#else
         if (width != mc.displayWidth || height != mc.displayHeight) {
             mc.resize(width, height);
         }
-        //#endif
     }
 
-    //#if MC<10800
     public static String tryReadString(PacketBuffer buffer, int max) {
         try {
             return buffer.readStringFromBuffer(max);
@@ -121,51 +63,17 @@ public class MCVer {
             throw new DecoderException(e);
         }
     }
-    //#endif
 
-    public static
-    //#if MC>=11400
-    //$$ CompletableFuture<?>
-    //#else
-    ListenableFuture<?>
-    //#endif
-    setServerResourcePack(File file) {
-        //#if MC>=11400
-        //$$ return getMinecraft().getPackFinder().func_217816_a(
-        //$$         file
-                //#if MC>=11600
-                //$$ , ResourcePackSource.PACK_SOURCE_SERVER
-                //#endif
-        //$$ );
-        //#else
+    public static ListenableFuture<?> setServerResourcePack(File file) {
         ResourcePackRepository repo = getMinecraft().getResourcePackRepository();
-        //#if MC>=10800
-        //$$ return repo.func_177319_a(file);
-        //#else
         ResourcePackRepositoryAccessor acc = (ResourcePackRepositoryAccessor) repo;
         acc.setActive(false);
         acc.setPack(new FileResourcePack(file));
         Minecraft.getMinecraft().scheduleResourcesRefresh();
         return Futures.immediateFuture(null);
-        //#endif
-        //#endif
     }
 
-    public static <T> void addCallback(
-            //#if MC>=11400
-            //$$ CompletableFuture<T> future,
-            //#else
-            ListenableFuture<T> future,
-            //#endif
-            Consumer<T> success,
-            Consumer<Throwable> failure
-    ) {
-        //#if MC>=11400
-        //$$ future.thenAccept(success).exceptionally(throwable -> {
-        //$$     failure.accept(throwable);
-        //$$     return null;
-        //$$ });
-        //#else
+    public static <T> void addCallback(ListenableFuture<T> future, Consumer<T> success, Consumer<Throwable> failure) {
         Futures.addCallback(future, new FutureCallback<T>() {
             @Override
             public void onSuccess(T result) {
@@ -177,62 +85,21 @@ public class MCVer {
                 failure.accept(throwable);
             }
         });
-        //#endif
     }
 
-    //#if MC>=10800
-    //$$ @SuppressWarnings("unchecked")
-    //$$ public static List<VertexFormatElement> getElements(VertexFormat vertexFormat) {
-    //$$     return vertexFormat.getElements();
-    //$$ }
-    //#endif
-
-    //#if MC<10800
     public static RenderManager getRenderManager(@SuppressWarnings("unused") Minecraft mc) {
         return RenderManager.instance;
     }
-    //#endif
 
     public static Minecraft getMinecraft() {
         return Minecraft.getMinecraft();
     }
 
-    public static void addButton(
-            GuiScreen screen,
-            //#if MC>=11400
-            //$$ Button button
-            //#else
-            GuiButton button
-            //#endif
-    ) {
+    public static void addButton(GuiScreen screen, GuiButton button) {
         GuiScreenAccessor acc = (GuiScreenAccessor) screen;
         acc.getButtons().add(button);
-        //#if MC>=11400
-        //$$ acc.getChildren().add(button);
-        //#endif
     }
 
-    //#if MC>=11400
-    //$$ public static Optional<Widget> findButton(List<Widget> buttonList, @SuppressWarnings("unused") String text, @SuppressWarnings("unused") int id) {
-        //#if MC>=11600
-        //$$ final TranslatableText message = new TranslatableText(text);
-        //#else
-        //$$ final String message = I18n.format(text);
-        //#endif
-    //$$     for (Widget b : buttonList) {
-    //$$         if (message.equals(b.getMessage())) {
-    //$$             return Optional.of(b);
-    //$$         }
-            //#if MC>=11600
-            //$$ // Fuzzy match (copy does not include children)
-            //$$ if (b.getMessage() != null && b.getMessage().copy().equals(message)) {
-            //$$     return Optional.of(b);
-            //$$ }
-            //#endif
-    //$$     }
-    //$$     return Optional.empty();
-    //$$ }
-    //#else
     public static Optional<GuiButton> findButton(List<GuiButton> buttonList, @SuppressWarnings("unused") String text, int id) {
         for (GuiButton b : buttonList) {
             if (b.id == id) {
@@ -241,59 +108,16 @@ public class MCVer {
         }
         return Optional.empty();
     }
-    //#endif
-
-    //#if MC>=11400
-    //$$ public static void processKeyBinds() {
-    //$$     ((MinecraftMethodAccessor) getMinecraft()).replayModProcessKeyBinds();
-    //$$ }
-    //#endif
 
     public interface MinecraftMethodAccessor {
-        //#if MC>=11400
-        //$$ void replayModProcessKeyBinds();
-        //#else
-        //#if MC>=10904
-        //$$ void replayModRunTickMouse();
-        //$$ void replayModRunTickKeyboard();
-        //#else
         void replayModSetEarlyReturnFromRunTick(boolean earlyReturn);
-        //#endif
-        //#endif
-        //#if MC>=11400
-        //$$ void replayModExecuteTaskQueue();
-        //#endif
     }
-
-    //#if MC>=10800 && MC<11500
-    //$$ public interface ChunkRenderWorkerAccessor {
-    //$$     void doRunTask(ChunkCompileTaskGenerator task) throws InterruptedException;
-    //$$ }
-    //#endif
 
     public static long milliTime() {
-        //#if MC>=11400
-        //$$ return Util.milliTime();
-        //#else
         return Minecraft.getSystemTime();
-        //#endif
     }
 
-    //#if MC>=10904
-    //$$ // TODO: this can be inlined once https://github.com/SpongePowered/Mixin/issues/305 is fixed
-    //$$ public static Vec3d getPosition(Particle particle, float partialTicks) {
-    //$$     ParticleAccessor acc = (ParticleAccessor) particle;
-    //$$     double x = acc.getPrevPosX() + (acc.getPosX() - acc.getPrevPosX()) * partialTicks;
-    //$$     double y = acc.getPrevPosY() + (acc.getPosY() - acc.getPrevPosY()) * partialTicks;
-    //$$     double z = acc.getPrevPosZ() + (acc.getPosZ() - acc.getPrevPosZ()) * partialTicks;
-    //$$     return new Vec3d(x, y, z);
-    //$$ }
-    //#endif
-
     public static void openFile(File file) {
-        //#if MC>=11400
-        //$$ Util.getOSType().openFile(file);
-        //#else
         String path = file.getAbsolutePath();
 
         // First try OS specific methods
@@ -321,41 +145,19 @@ public class MCVer {
     }
 
     public static void openURL(URI url) {
-        //#if MC>=11400
-        //$$ Util.getOSType().openURI(url);
-        //#else
         try {
             Desktop.getDesktop().browse(url);
         } catch (Throwable e) {
             LogManager.getLogger().error("Failed to open URL: ", e);
         }
-        //#endif
     }
 
-    //#if MC<10900
     public static class SoundEvent {}
-    //#endif
 
-    //#if MC>=11400
-    //$$ private static Boolean hasOptifine;
-    //$$ public static boolean hasOptifine() {
-    //$$     if (hasOptifine == null) {
-    //$$         try {
-    //$$             Class.forName("Config");
-    //$$             hasOptifine = true;
-    //$$         } catch (ClassNotFoundException e) {
-    //$$             hasOptifine = false;
-    //$$         }
-    //$$     }
-    //$$     return hasOptifine;
-    //$$ }
-    //#else
     public static boolean hasOptifine() {
         return FMLClientHandler.instance().hasOptifine();
     }
-    //#endif
 
-    //#if MC<=10710
     public static class GlStateManager {
         public static void resetColor() { /* nop */ }
         public static void clearColor(float r, float g, float b, float a) { glClearColor(r, g, b, a); }
@@ -370,51 +172,8 @@ public class MCVer {
         public static void translate(double x, double y, double z) { glTranslated(x, y, z); }
         public static void rotate(float angle, float x, float y, float z) { glRotatef(angle, x, y, z); }
     }
-    //#endif
 
     public static abstract class Keyboard {
-        //#if MC>=11400
-        //$$ public static final int KEY_LCONTROL = GLFW.GLFW_KEY_LEFT_CONTROL;
-        //$$ public static final int KEY_LSHIFT = GLFW.GLFW_KEY_LEFT_SHIFT;
-        //$$ public static final int KEY_ESCAPE = GLFW.GLFW_KEY_ESCAPE;
-        //$$ public static final int KEY_HOME = GLFW.GLFW_KEY_HOME;
-        //$$ public static final int KEY_END = GLFW.GLFW_KEY_END;
-        //$$ public static final int KEY_UP = GLFW.GLFW_KEY_UP;
-        //$$ public static final int KEY_DOWN = GLFW.GLFW_KEY_DOWN;
-        //$$ public static final int KEY_LEFT = GLFW.GLFW_KEY_LEFT;
-        //$$ public static final int KEY_RIGHT = GLFW.GLFW_KEY_RIGHT;
-        //$$ public static final int KEY_BACK = GLFW.GLFW_KEY_BACKSPACE;
-        //$$ public static final int KEY_DELETE = GLFW.GLFW_KEY_DELETE;
-        //$$ public static final int KEY_RETURN = GLFW.GLFW_KEY_ENTER;
-        //$$ public static final int KEY_TAB = GLFW.GLFW_KEY_TAB;
-        //$$ public static final int KEY_F1 = GLFW.GLFW_KEY_F1;
-        //$$ public static final int KEY_A = GLFW.GLFW_KEY_A;
-        //$$ public static final int KEY_B = GLFW.GLFW_KEY_B;
-        //$$ public static final int KEY_C = GLFW.GLFW_KEY_C;
-        //$$ public static final int KEY_D = GLFW.GLFW_KEY_D;
-        //$$ public static final int KEY_E = GLFW.GLFW_KEY_E;
-        //$$ public static final int KEY_F = GLFW.GLFW_KEY_F;
-        //$$ public static final int KEY_G = GLFW.GLFW_KEY_G;
-        //$$ public static final int KEY_H = GLFW.GLFW_KEY_H;
-        //$$ public static final int KEY_I = GLFW.GLFW_KEY_I;
-        //$$ public static final int KEY_J = GLFW.GLFW_KEY_J;
-        //$$ public static final int KEY_K = GLFW.GLFW_KEY_K;
-        //$$ public static final int KEY_L = GLFW.GLFW_KEY_L;
-        //$$ public static final int KEY_M = GLFW.GLFW_KEY_M;
-        //$$ public static final int KEY_N = GLFW.GLFW_KEY_N;
-        //$$ public static final int KEY_O = GLFW.GLFW_KEY_O;
-        //$$ public static final int KEY_P = GLFW.GLFW_KEY_P;
-        //$$ public static final int KEY_Q = GLFW.GLFW_KEY_Q;
-        //$$ public static final int KEY_R = GLFW.GLFW_KEY_R;
-        //$$ public static final int KEY_S = GLFW.GLFW_KEY_S;
-        //$$ public static final int KEY_T = GLFW.GLFW_KEY_T;
-        //$$ public static final int KEY_U = GLFW.GLFW_KEY_U;
-        //$$ public static final int KEY_V = GLFW.GLFW_KEY_V;
-        //$$ public static final int KEY_W = GLFW.GLFW_KEY_W;
-        //$$ public static final int KEY_X = GLFW.GLFW_KEY_X;
-        //$$ public static final int KEY_Y = GLFW.GLFW_KEY_Y;
-        //$$ public static final int KEY_Z = GLFW.GLFW_KEY_Z;
-        //#else
         public static final int KEY_LCONTROL = org.lwjgl.input.Keyboard.KEY_LCONTROL;
         public static final int KEY_LSHIFT = org.lwjgl.input.Keyboard.KEY_LSHIFT;
         public static final int KEY_ESCAPE = org.lwjgl.input.Keyboard.KEY_ESCAPE;
@@ -455,29 +214,15 @@ public class MCVer {
         public static final int KEY_X = org.lwjgl.input.Keyboard.KEY_X;
         public static final int KEY_Y = org.lwjgl.input.Keyboard.KEY_Y;
         public static final int KEY_Z = org.lwjgl.input.Keyboard.KEY_Z;
-        //#endif
 
         public static boolean hasControlDown() {
             return GuiScreen.isCtrlKeyDown();
         }
 
         public static boolean isKeyDown(int keyCode) {
-            //#if MC>=11500
-            //$$ return InputUtil.isKeyPressed(getMinecraft().getWindow().getHandle(), keyCode);
-            //#else
-            //#if MC>=11400
-            //$$ return InputMappings.isKeyDown(getMinecraft().mainWindow.getHandle(), keyCode);
-            //#else
-            //#if MC>=11400
-            //$$ return InputMappings.isKeyDown(keyCode);
-            //#else
             return org.lwjgl.input.Keyboard.isKeyDown(keyCode);
-            //#endif
-            //#endif
-            //#endif
         }
 
-        //#if MC<11400
         public static int getEventKey() {
             return org.lwjgl.input.Keyboard.getEventKey();
         }
@@ -489,6 +234,5 @@ public class MCVer {
         public static String getKeyName(int code) {
             return org.lwjgl.input.Keyboard.getKeyName(code);
         }
-        //#endif
     }
 }

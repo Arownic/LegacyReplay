@@ -20,22 +20,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class Mixin_ChromaKeyColorSky {
     @Shadow @Final private Minecraft mc;
 
-    //#if MC>=11400 || 10710>=MC
     @Inject(method = "renderSky(F)V", at = @At("HEAD"), cancellable = true)
-    //#else
-    //$$ @Inject(method = "renderSky(FI)V", at = @At("HEAD"), cancellable = true)
-    //#endif
     private void chromaKeyingSky(CallbackInfo ci) {
         EntityRendererHandler handler = ((EntityRendererHandler.IEntityRenderer) this.mc.entityRenderer).replayModRender_getHandler();
         if (handler != null) {
             ReadableColor color = handler.getSettings().getChromaKeyingColor();
             if (color != null) {
                 GlStateManager.clearColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 1);
-                GlStateManager.clear(GL11.GL_COLOR_BUFFER_BIT
-                        //#if MC>=11400
-                        //$$ , false
-                        //#endif
-                );
+                GlStateManager.clear(GL11.GL_COLOR_BUFFER_BIT);
                 ci.cancel();
             }
         }

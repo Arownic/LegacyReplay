@@ -49,11 +49,7 @@ public class Window implements MainWindowAccessor {
     private ScaledResolution scaledResolution() {
         ScaledResolution scaledResolution = this.scaledResolution;
         if (scaledResolution == null) {
-            //#if MC>=10809
-            //$$ scaledResolution = new ScaledResolution(mc);
-            //#else
             scaledResolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-            //#endif
             this.scaledResolution = scaledResolution;
         }
         return scaledResolution;

@@ -39,9 +39,6 @@ public class GuiRecordingOverlay extends EventRegistrations {
             FontRenderer fontRenderer = mc.fontRendererObj;
             String text = guiControls.isPaused() ? I18n.format("replaymod.gui.paused") : I18n.format("replaymod.gui.recording");
             fontRenderer.drawString(
-                    //#if MC>=11600
-                    //$$ stack,
-                    //#endif
                     text.toUpperCase(), 30, 18 - (fontRenderer.FONT_HEIGHT / 2), 0xffffffff);
             mc.renderEngine.bindTexture(TEXTURE);
             enableAlpha();

@@ -52,11 +52,7 @@ import java.util.stream.Collectors;
 
 import static com.replaymod.render.ReplayModRender.LOGGER;
 
-//#if MC>=11400
-//$$ import net.minecraft.util.text.TranslationTextComponent;
-//#else
 import com.replaymod.replaystudio.util.I18n;
-//#endif
 
 public class GuiRenderQueue extends AbstractGuiPopup<GuiRenderQueue> implements Typeable {
     private final GuiLabel title = new GuiLabel().setI18nText("replaymod.gui.renderqueue.title").setColor(Colors.BLACK);
@@ -180,14 +176,8 @@ public class GuiRenderQueue extends AbstractGuiPopup<GuiRenderQueue> implements 
             } catch (FFmpegWriter.NoFFmpegException e) {
                 LOGGER.error("Rendering video:", e);
                 GuiErrorScreen errorScreen = new GuiErrorScreen(
-                        //#if MC>=11400
-                        //$$ container::display,
-                        //$$ new TranslationTextComponent("replaymod.gui.rendering.error.title"),
-                        //$$ new TranslationTextComponent("replaymod.gui.rendering.error.message")
-                        //#else
                         I18n.format("replaymod.gui.rendering.error.title"),
                         I18n.format("replaymod.gui.rendering.error.message")
-                        //#endif
                 );
                 mc.displayGuiScreen(errorScreen);
                 return;

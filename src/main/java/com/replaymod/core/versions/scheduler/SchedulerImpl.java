@@ -14,24 +14,14 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-//#if MC>=10809
-//$$ import net.minecraftforge.common.MinecraftForge;
-//#else
 import cpw.mods.fml.common.FMLCommonHandler;
-//#endif
 
-//#if MC<10800
 import java.util.ArrayDeque;
-//#endif
 
 public class SchedulerImpl implements  Scheduler {
     private static final Minecraft mc = Minecraft.getMinecraft();
 
-    //#if MC>=10809
-    //$$ private static final EventBus FML_BUS = MinecraftForge.EVENT_BUS;
-    //#else
     private static final EventBus FML_BUS = FMLCommonHandler.instance().bus();
-    //#endif
 
     @Override
     public void runSync(Runnable runnable) throws InterruptedException, ExecutionException, TimeoutException {
@@ -67,29 +57,11 @@ public class SchedulerImpl implements  Scheduler {
 
     private void runLater(Runnable runnable, Runnable defer) {
         if (mc.isCallingFromMinecraftThread() && inRunLater) {
-            //#if MC>=10800
-            //$$ FML_BUS.register(new Object() {
-            //$$     @SubscribeEvent
-            //$$     public void onRenderTick(TickEvent.RenderTickEvent event) {
-            //$$         if (event.phase == TickEvent.Phase.START) {
-            //$$             FML_BUS.unregister(this);
-            //$$             defer.run();
-            //$$         }
-            //$$     }
-            //$$ });
-            //#else
             FML_BUS.register(new RunLaterHelper(defer));
-            //#endif
             return;
         }
-        //#if MC>=10800
-        //$$ Queue<FutureTask<?>> tasks = ((MinecraftAccessor) mc).getScheduledTasks();
-        //$$ //noinspection SynchronizationOnLocalVariableOrMethodParameter
-        //$$ synchronized (tasks) {
-        //#else
         Queue<ListenableFutureTask<?>> tasks = scheduledTasks;
         synchronized (scheduledTasks) {
-        //#endif
             tasks.add(ListenableFutureTask.create(() -> {
                 inRunLater = true;
                 try {
@@ -105,11 +77,6 @@ public class SchedulerImpl implements  Scheduler {
         }
     }
 
-    //#if MC>=10800
-    //$$ @Override
-    //$$ public void runTasks() {
-    //$$ }
-    //#else
     // 1.7.10: Cannot use MC's because it is processed only during ticks (so not at all when replay is paused)
     private final Queue<ListenableFutureTask<?>> scheduledTasks = new ArrayDeque<>();
 
@@ -138,5 +105,4 @@ public class SchedulerImpl implements  Scheduler {
             }
         }
     }
-    //#endif
 }

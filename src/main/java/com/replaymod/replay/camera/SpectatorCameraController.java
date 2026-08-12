@@ -7,14 +7,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
-//#if MC>=11400
-//$$ import net.minecraft.inventory.EquipmentSlotType;
-//#endif
-
-//#if MC>=11400
-//#else
 import org.lwjgl.input.Mouse;
-//#endif
 
 import java.util.Arrays;
 
@@ -42,12 +35,7 @@ public class SpectatorCameraController implements CameraController {
             while (binding.isPressed());
         }
 
-        // Prevent mouse movement
-        //#if MC>=11400
-        //$$ // No longer needed
-        //#else
         Mouse.updateCursor();
-        //#endif
 
         // Always make sure the camera is in the exact same spot as the spectated entity
         // This is necessary as some rendering code for the hand doesn't respect the view entity
@@ -58,23 +46,11 @@ public class SpectatorCameraController implements CameraController {
             // If it's a player, also 'steal' its inventory so the rendering code knows what item to render
             if (view instanceof EntityPlayer) {
                 EntityPlayer viewPlayer = (EntityPlayer) view;
-                //#if MC>=11400
-                //$$ camera.setItemStackToSlot(EquipmentSlotType.HEAD, viewPlayer.getItemStackFromSlot(EquipmentSlotType.HEAD));
-                //$$ camera.setItemStackToSlot(EquipmentSlotType.MAINHAND, viewPlayer.getItemStackFromSlot(EquipmentSlotType.MAINHAND));
-                //$$ camera.setItemStackToSlot(EquipmentSlotType.OFFHAND, viewPlayer.getItemStackFromSlot(EquipmentSlotType.OFFHAND));
-                //#else
                 camera.inventory = viewPlayer.inventory;
-                //#endif
                 EntityPlayerAccessor cameraA = (EntityPlayerAccessor) camera;
                 EntityPlayerAccessor viewPlayerA = (EntityPlayerAccessor) viewPlayer;
-                //#if MC>=10904
-                //$$ cameraA.setItemStackMainHand(viewPlayerA.getItemStackMainHand());
-                //$$ camera.swingingHand = viewPlayer.swingingHand;
-                //$$ cameraA.setActiveItemStackUseCount(viewPlayerA.getActiveItemStackUseCount());
-                //#else
                 cameraA.setItemInUse(viewPlayerA.getItemInUse());
                 cameraA.setItemInUseCount(viewPlayerA.getItemInUseCount());
-                //#endif
             }
         }
     }

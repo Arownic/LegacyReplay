@@ -9,37 +9,16 @@ public class WrappedTimer extends Timer {
     protected final Timer wrapped;
 
     public WrappedTimer(Timer wrapped) {
-        //#if MC>=11400
-        //$$ super(0, 0);
-        //#else
         super(0);
-        //#endif
         this.wrapped = wrapped;
         copy(wrapped, this);
     }
 
     @Override
-    public
-    //#if MC>=11600
-    //$$ int
-    //#else
-    void
-    //#endif
-    updateTimer(
-            //#if MC>=11400
-            //$$ long sysClock
-            //#endif
-    ) {
+    public void updateTimer() {
         copy(this, wrapped);
         try {
-            //#if MC>=11600
-            //$$ return
-            //#endif
-            wrapped.updateTimer(
-                    //#if MC>=11400
-                    //$$ sysClock
-                    //#endif
-            );
+            wrapped.updateTimer();
         } finally {
             copy(wrapped, this);
         }
@@ -49,21 +28,15 @@ public class WrappedTimer extends Timer {
         TimerAccessor fromA = (TimerAccessor) from;
         TimerAccessor toA = (TimerAccessor) to;
 
-        //#if MC<11600
         to.elapsedTicks = from.elapsedTicks;
-        //#endif
         to.renderPartialTicks = from.renderPartialTicks;
         toA.setLastSyncSysClock(fromA.getLastSyncSysClock());
         to.elapsedPartialTicks = from.elapsedPartialTicks;
-        //#if MC>=11200
-        //$$ toA.setTickLength(fromA.getTickLength());
-        //#else
         toA.setTicksPerSecond(fromA.getTicksPerSecond());
         toA.setLastHRTime(fromA.getLastHRTime());
         toA.setTimerSpeed(fromA.getTimerSpeed());
         toA.setLastSyncHRClock(fromA.getLastSyncHRClock());
         toA.setCounter(fromA.getCounter());
         toA.setTimeSyncAdjustment(fromA.getTimeSyncAdjustment());
-        //#endif
     }
 }

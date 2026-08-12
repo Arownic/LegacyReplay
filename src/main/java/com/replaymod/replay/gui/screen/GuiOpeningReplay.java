@@ -1,4 +1,3 @@
-//#if MC<=10710
 package com.replaymod.replay.gui.screen;
 
 import net.minecraft.client.gui.GuiScreen;
@@ -16,4 +15,3 @@ public class GuiOpeningReplay extends GuiScreen {
         networkManager.processReceivedPackets();
     }
 }
-//#endif

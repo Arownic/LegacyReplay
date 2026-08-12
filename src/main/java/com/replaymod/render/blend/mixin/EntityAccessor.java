@@ -1,4 +1,3 @@
-//#if MC<10904
 package com.replaymod.render.blend.mixin;
 
 import net.minecraft.entity.Entity;
@@ -20,4 +19,3 @@ public interface EntityAccessor {
     @Accessor
     double getPosZ();
 }
-//#endif

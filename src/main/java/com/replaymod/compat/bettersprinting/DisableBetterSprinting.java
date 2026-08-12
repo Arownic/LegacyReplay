@@ -9,31 +9,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 
-//#if MC>=10904
-//$$ import net.minecraft.block.state.IBlockState;
-//$$ import net.minecraft.util.SoundCategory;
-//$$ import net.minecraft.util.SoundEvent;
-//$$ import net.minecraft.util.math.BlockPos;
-//$$ import net.minecraft.world.IWorldEventListener;
-//$$ import net.minecraft.world.World;
-//$$
-//$$ import javax.annotation.Nullable;
-//#else
-//#if MC>= 10800
-//$$ import net.minecraft.util.BlockPos;
-//#endif
 import net.minecraft.world.IWorldAccess;
-//#endif
 
-//#if MC>=10800
-//$$ import net.minecraftforge.fml.common.Loader;
-//$$ import net.minecraftforge.fml.common.ModContainer;
-//$$ import net.minecraftforge.fml.common.eventhandler.EventPriority;
-//$$ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-//$$ import net.minecraftforge.fml.common.versioning.DefaultArtifactVersion;
-//$$ import net.minecraftforge.fml.common.versioning.Restriction;
-//$$ import net.minecraftforge.fml.common.versioning.VersionRange;
-//#else
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -41,7 +18,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.versioning.DefaultArtifactVersion;
 import cpw.mods.fml.common.versioning.Restriction;
 import cpw.mods.fml.common.versioning.VersionRange;
-//#endif
 
 import java.util.Collections;
 

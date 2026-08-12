@@ -17,10 +17,6 @@ import org.lwjgl.opengl.GL11;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
-//#if MC>=11400
-//$$ import net.minecraft.util.math.Vec3d;
-//#endif
-
 public class Util {
     public static BlenderFactory factory() {
         return BlendState.getState().getFactory();
@@ -42,11 +38,7 @@ public class Util {
     private static FloatBuffer floatBuffer = GLAllocation.createDirectFloatBuffer(16);
     public static Matrix4f getGlMatrix(int matrix) {
         floatBuffer.clear();
-        //#if MC>=11400
-        //$$ GL11.glGetFloatv(matrix, floatBuffer);
-        //#else
         GL11.glGetFloat(matrix, floatBuffer);
-        //#endif
         floatBuffer.rewind();
         Matrix4f mat = new Matrix4f();
         mat.load(floatBuffer);
@@ -136,22 +128,6 @@ public class Util {
         q.w = -q.w;
     }
 
-    //#if MC>=10800
-    //$$ public static Vector3f getCameraPos() {
-    //$$     Minecraft mc = Minecraft.getMinecraft();
-        //#if MC>=11400
-        //$$ Vec3d pos = mc.getRenderManager().info.getProjectedView();
-        //$$ return new Vector3f((float) pos.x, (float) pos.y, (float) pos.z);
-        //#else
-        //$$ return new Vector3f(
-        //$$         (float) -mc.getRenderManager().viewerPosX,
-        //$$         (float) -mc.getRenderManager().viewerPosY,
-        //$$         (float) -mc.getRenderManager().viewerPosZ
-        //$$ );
-        //#endif
-    //$$ }
-    //#endif
-
     public static Vector3f rotate(Quaternion rot, Vector3f vec, Vector3f dest) {
         if (dest == null) dest = new Vector3f();
         Quaternion vecQ = new Quaternion(vec.x, vec.y, vec.z, 0);
@@ -184,11 +160,7 @@ public class Util {
 
     public static String getTileEntityId(TileEntity tileEntity) {
         NBTTagCompound nbt = new NBTTagCompound();
-        //#if MC>=11400
-        //$$ tileEntity.write(nbt);
-        //#else
         tileEntity.writeToNBT(nbt);
-        //#endif
         return nbt.getString("id");
     }
 

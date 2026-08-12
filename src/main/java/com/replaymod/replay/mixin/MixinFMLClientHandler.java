@@ -11,8 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = FMLClientHandler.class, remap = false)
 public class MixinFMLClientHandler {
-    // Usually this method is called async and can just block and wait for MC to tick the network manager
-    // Since we sometimes call it sync though, we need to take care of ticking ourselves.
     @Inject(method = "waitForPlayClient", at = @At("HEAD"), remap = false)
     private void tickNetworkManager(CallbackInfo ci) {
         Minecraft mc = Minecraft.getMinecraft();

@@ -16,24 +16,18 @@ import static com.replaymod.core.ReplayMod.MOD_ID;
 import static com.replaymod.core.ReplayMod.jGuiResourcePack;
 import static com.replaymod.core.versions.MCVer.getMinecraft;
 
-//#if MC<=10710
 import net.minecraft.client.resources.FolderResourcePack;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-//#endif
 
 @Mod(modid = ReplayMod.MOD_ID,
         useMetadata = true,
         version = "1.7.10-2.5.2-67-gf5af283-dirty",
         acceptedMinecraftVersions = "[ 1.7.10 ]",
         acceptableRemoteVersions = "*",
-        //#if MC>=10800
-        //$$ clientSideOnly = true,
-        //$$ updateJSON = "https://raw.githubusercontent.com/ReplayMod/ReplayMod/master/versions.json",
-        //#endif
         guiFactory = "com.replaymod.core.gui.GuiFactory")
 public class ReplayModBackend {
     private final ReplayMod mod = new ReplayMod(this);
@@ -76,7 +70,6 @@ public class ReplayModBackend {
             defaultResourcePacks.add(jGuiResourcePack);
         }
 
-        //#if MC<=10710
         FolderResourcePack mainResourcePack = new FolderResourcePack(new File("../src/main/resources")) {
             @Override
             protected InputStream getInputStreamByName(String resourceName) throws IOException {
@@ -91,6 +84,5 @@ public class ReplayModBackend {
             }
         };
         defaultResourcePacks.add(mainResourcePack);
-        //#endif
     }
 }

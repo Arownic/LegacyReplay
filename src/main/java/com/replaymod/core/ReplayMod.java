@@ -175,11 +175,7 @@ public class ReplayMod implements Module, Scheduler {
         }
         return new FolderResourcePack(folder) {
             @Override
-            //#if MC>=11400
-            //$$ public String getName() {
-            //#else
             public String getPackName() {
-            //#endif
                 return JGUI_RESOURCE_PACK_NAME;
             }
 
@@ -189,11 +185,7 @@ public class ReplayMod implements Module, Scheduler {
                     return super.getInputStreamByName(resourceName);
                 } catch (IOException e) {
                     if ("pack.mcmeta".equals(resourceName)) {
-                        //#if MC>=11400
-                        //$$ int version = 4;
-                        //#else
                         int version = 1;
-                        //#endif
                         return new ByteArrayInputStream(("{\"pack\": {\"description\": \"dummy pack for jGui resources in dev-env\", \"pack_format\": "
                                 + version + "}}").getBytes(StandardCharsets.UTF_8));
                     }
@@ -378,21 +370,6 @@ public class ReplayMod implements Module, Scheduler {
     private void printToChat(boolean warning, String message, Object... args) {
         if (getSettingsRegistry().get(Setting.NOTIFICATIONS)) {
             // Some nostalgia: "§8[§6Replay Mod§8]§r Your message goes here"
-            //#if MC>=10904
-            //#if MC>=11600
-            //$$ Style coloredDarkGray = Style.EMPTY.withColor(Formatting.DARK_GRAY);
-            //$$ Style coloredGold = Style.EMPTY.withColor(Formatting.GOLD);
-            //$$ Style alert = Style.EMPTY.withColor(warning ? Formatting.RED : Formatting.DARK_GREEN);
-            //#else
-            //$$ Style coloredDarkGray = new Style().setColor(TextFormatting.DARK_GRAY);
-            //$$ Style coloredGold = new Style().setColor(TextFormatting.GOLD);
-            //$$ Style alert = new Style().setColor(warning ? TextFormatting.RED : TextFormatting.DARK_GREEN);
-            //#endif
-            //$$ ITextComponent text = new TextComponentString("[").setStyle(coloredDarkGray)
-            //$$         .appendSibling(new TextComponentTranslation("replaymod.title").setStyle(coloredGold))
-            //$$         .appendSibling(new TextComponentString("] "))
-            //$$         .appendSibling(new TextComponentTranslation(message, args).setStyle(alert));
-            //#else
             ChatStyle coloredDarkGray = new ChatStyle().setColor(EnumChatFormatting.DARK_GRAY);
             ChatStyle coloredGold = new ChatStyle().setColor(EnumChatFormatting.GOLD);
             IChatComponent text = new ChatComponentText("[").setChatStyle(coloredDarkGray)
@@ -400,7 +377,6 @@ public class ReplayMod implements Module, Scheduler {
                     .appendSibling(new ChatComponentText("] "))
                     .appendSibling(new ChatComponentTranslation(message, args).setChatStyle(new ChatStyle()
                             .setColor(warning ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GREEN)));
-            //#endif
             // Send message to chat GUI
             // The ingame GUI is initialized at startup, therefore this is possible before the client is connected
             mc.ingameGUI.getChatGUI().printChatMessage(text);

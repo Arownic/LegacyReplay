@@ -29,10 +29,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 import org.lwjgl.opengl.GL11;
 
-//#if MC>=11500
-//$$ import com.mojang.blaze3d.systems.RenderSystem;
-//#endif
-
 import java.util.Comparator;
 import java.util.Optional;
 
@@ -78,13 +74,7 @@ public class PathPreviewRenderer extends EventRegistrations {
 
         Triple<Double, Double, Double> viewPos = Triple.of(
                 view.posX,
-                view.posY
-                //#if MC>=10800 && MC<11500
-                //$$ // Eye height is subtracted to make path appear higher (at eye height) than it actually is (at foot height)
-                //$$ - view.getEyeHeight(),
-                //#else
-                ,
-                //#endif
+                view.posY,
                 view.posZ
         );
 
@@ -93,10 +83,6 @@ public class PathPreviewRenderer extends EventRegistrations {
         try {
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glDisable(GL11.GL_TEXTURE_2D);
-
-            //#if MC>=11500
-            //$$ RenderSystem.multMatrix(matrixStack.peek().getModel());
-            //#endif
 
             for (PathSegment segment : path.getSegments()) {
                 Interpolator interpolator = segment.getInterpolator();
