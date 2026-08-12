@@ -1,1 +1,4 @@
-/eclipse/.metadata/.plugins/org.eclipse.debug.core/.launches/Client.launch
+/eclipse/
+/.gradle/
+/.idea/
+/build/
