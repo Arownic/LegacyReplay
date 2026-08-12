@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.replaymod.compat.mapwriter.latemixin",
+  "refmap": "mixins.replaymodcompat.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinMwForge"
+  ],
+  "verbose": false
+}
