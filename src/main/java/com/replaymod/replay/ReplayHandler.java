@@ -1,15 +1,9 @@
 package com.replaymod.replay;
 
 import com.google.common.base.Preconditions;
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.replaymod.core.ReplayMod;
 import com.replaymod.core.mixin.MinecraftAccessor;
 import com.replaymod.core.mixin.TimerAccessor;
 import com.replaymod.core.utils.Restrictions;
-import com.replaymod.core.utils.Utils;
-import com.replaymod.core.utils.WrappedTimer;
 import com.replaymod.replay.camera.CameraEntity;
 import com.replaymod.replay.camera.SpectatorCameraController;
 import com.replaymod.replay.events.ReplayClosedCallback;
@@ -20,19 +14,14 @@ import com.replaymod.replaystudio.data.Marker;
 import com.replaymod.replaystudio.replay.ReplayFile;
 import com.replaymod.replaystudio.util.Location;
 import de.johni0702.minecraft.gui.container.AbstractGuiScreen;
-import de.johni0702.minecraft.gui.container.GuiContainer;
 import de.johni0702.minecraft.gui.container.GuiScreen;
 import de.johni0702.minecraft.gui.element.GuiLabel;
-import de.johni0702.minecraft.gui.element.advanced.GuiProgressBar;
 import de.johni0702.minecraft.gui.layout.HorizontalLayout;
-import de.johni0702.minecraft.gui.popup.AbstractGuiPopup;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.embedded.EmbeddedChannel;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiDownloadTerrain;
 import net.minecraft.client.network.NetHandlerLoginClient;
 import com.replaymod.core.versions.Window;
-import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.NetworkManager;
@@ -46,21 +35,16 @@ import org.lwjgl.opengl.Display;
 
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 
-import de.johni0702.minecraft.gui.element.GuiLabel;
 import de.johni0702.minecraft.gui.popup.GuiInfoPopup;
 import de.johni0702.minecraft.gui.utils.Colors;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import com.replaymod.replay.gui.screen.GuiOpeningReplay;
 import net.minecraft.entity.EntityLivingBase;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import static com.replaymod.core.versions.MCVer.*;
 import static com.replaymod.replay.ReplayModReplay.LOGGER;
@@ -488,10 +472,7 @@ public class ReplayHandler {
                 Display.update();
 
                 // Send the packets
-                do {
-                    replaySender.sendPacketsTill(targetTime);
-                    targetTime += 500;
-                } while (mc.thePlayer == null || mc.currentScreen instanceof GuiDownloadTerrain);
+                replaySender.sendPacketsTill(targetTime);
                 replaySender.setAsyncMode(true);
                 replaySender.setReplaySpeed(0);
 
