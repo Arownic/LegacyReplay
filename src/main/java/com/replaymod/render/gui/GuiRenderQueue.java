@@ -14,7 +14,7 @@ import com.replaymod.replay.ReplayModReplay;
 import com.replaymod.replay.ReplaySender;
 import com.replaymod.replaystudio.pathing.path.Timeline;
 import com.replaymod.replaystudio.replay.ReplayFile;
-import com.replaymod.replaystudio.us.myles.ViaVersion.api.Pair;
+import com.replaymod.replaystudio.lib.viaversion.api.Pair;
 import de.johni0702.minecraft.gui.GuiRenderer;
 import de.johni0702.minecraft.gui.RenderInfo;
 import de.johni0702.minecraft.gui.container.AbstractGuiClickableContainer;

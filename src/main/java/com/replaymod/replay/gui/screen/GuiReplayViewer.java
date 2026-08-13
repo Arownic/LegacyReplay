@@ -4,7 +4,7 @@ import com.google.common.util.concurrent.SettableFuture;
 import com.replaymod.render.gui.GuiRenderQueue;
 import com.replaymod.render.rendering.VideoRenderer;
 import com.replaymod.render.utils.RenderJob;
-import com.replaymod.replaystudio.us.myles.ViaVersion.api.Pair;
+import com.replaymod.replaystudio.lib.viaversion.api.Pair;
 import de.johni0702.minecraft.gui.GuiRenderer;
 import de.johni0702.minecraft.gui.RenderInfo;
 import de.johni0702.minecraft.gui.versions.Image;

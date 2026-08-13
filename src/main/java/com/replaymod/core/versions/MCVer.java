@@ -2,8 +2,8 @@ package com.replaymod.core.versions;
 
 import com.replaymod.core.mixin.GuiScreenAccessor;
 import com.replaymod.replaystudio.protocol.PacketTypeRegistry;
-import com.replaymod.replaystudio.us.myles.ViaVersion.api.protocol.ProtocolVersion;
-import com.replaymod.replaystudio.us.myles.ViaVersion.packets.State;
+import com.replaymod.replaystudio.lib.viaversion.api.protocol.ProtocolVersion;
+import com.replaymod.replaystudio.lib.viaversion.packets.State;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.Util;

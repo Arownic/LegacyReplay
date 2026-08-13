@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 //import com.replaymod.gradle.preprocess.PreprocessTask
 
 buildscript {
@@ -105,7 +107,7 @@ dependencies {
     shadow 'org.aspectj:aspectjrt:1.8.2'
 
     shadow 'com.github.ReplayMod.JavaBlend:2.79.0:a0696f8'
-    shadow "com.github.ReplayMod:ReplayStudio:a1f82a7", shadeExclusions
+    shadow "com.github.ReplayMod:ReplayStudio:99b3bae", shadeExclusions
 
     compile 'blank:MapWriter:1.7.10-2.1.10'
 
@@ -174,7 +176,7 @@ task configureRelocation() {
 }
 
 tasks.removeByName('shadowJar') // we want to base our shadowed jar on the reobfJar output, not the sourceSet output
-task shadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+task shadowJar(type: ShadowJar) {
     from { tasks.jar.archiveFile.get() }
     dependsOn { tasks.reobf }
 

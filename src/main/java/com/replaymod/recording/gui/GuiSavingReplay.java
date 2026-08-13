@@ -5,7 +5,7 @@ import com.replaymod.core.utils.Utils;
 import com.replaymod.recording.Setting;
 import com.replaymod.replay.gui.screen.GuiReplayViewer;
 import com.replaymod.replaystudio.replay.ReplayMetaData;
-import com.replaymod.replaystudio.us.myles.ViaVersion.api.Pair;
+import com.replaymod.replaystudio.lib.viaversion.api.Pair;
 import de.johni0702.minecraft.gui.container.AbstractGuiScreen;
 import de.johni0702.minecraft.gui.container.GuiContainer;
 import de.johni0702.minecraft.gui.container.GuiPanel;
