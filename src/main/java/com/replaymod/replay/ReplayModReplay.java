@@ -18,6 +18,7 @@ import com.replaymod.replay.camera.ClassicCameraController;
 import com.replaymod.replay.camera.VanillaCameraController;
 import com.replaymod.replay.gui.screen.GuiModCompatWarning;
 import com.replaymod.replay.handler.GuiHandler;
+import com.replaymod.replaystudio.ILogger;
 import com.replaymod.replaystudio.data.Marker;
 import com.replaymod.replaystudio.replay.ReplayFile;
 import net.minecraft.client.Minecraft;
@@ -52,7 +53,7 @@ public class ReplayModReplay implements Module {
 
     public ReplayModReplay(ReplayMod core) {
         this.core = core;
-
+        ILogger.setLogger(new ReplayStudioLogger());
         core.getSettingsRegistry().register(Setting.class);
     }
 

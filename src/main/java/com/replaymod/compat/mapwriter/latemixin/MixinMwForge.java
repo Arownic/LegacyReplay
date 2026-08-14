@@ -1,9 +1,8 @@
 package com.replaymod.compat.mapwriter.latemixin;
 
 import cpw.mods.fml.common.network.FMLNetworkEvent;
+import mapwriter.forge.MwForge;
 import net.minecraft.network.NetworkManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,7 +13,7 @@ import java.net.SocketAddress;
 
 import static com.replaymod.compat.ReplayModCompat.LOGGER;
 
-@Mixin(targets = "mapwriter.forge.MwForge")
+@Mixin(MwForge.class)
 public abstract class MixinMwForge {
 
     @Inject(
@@ -23,8 +22,7 @@ public abstract class MixinMwForge {
             cancellable = true,
             remap = false
     )
-    private void replaymodcompat_guardNonInetAddress(
-            FMLNetworkEvent.ClientConnectedToServerEvent event, CallbackInfo ci) {
+    private void replaymodcompat_guardNonInetAddress(FMLNetworkEvent.ClientConnectedToServerEvent event, CallbackInfo ci) {
         if (event.isLocal) {
             return; // MapWriter already skips its own risky code path for this case.
         }
@@ -39,14 +37,14 @@ public abstract class MixinMwForge {
             remote = manager.getRemoteAddress();
         } catch (Throwable t) {
             // If we can't even ask, don't let that itself crash the game - just skip.
-            LOGGER.warn("[ReplayModCompat] Failed to inspect NetworkManager remote address; " +
+            LOGGER.warn("Failed to inspect NetworkManager remote address; " +
                     "skipping MapWriter's onConnected for this connection.", t);
             ci.cancel();
             return;
         }
 
         if (!(remote instanceof InetSocketAddress)) {
-            LOGGER.info("[ReplayModCompat] Non-IP connection detected (e.g. a Replay Mod " +
+            LOGGER.info("Non-IP connection detected (e.g. a Replay Mod " +
                     "internal connection) - skipping MapWriter's onConnected to avoid its " +
                     "ClassCastException.");
             ci.cancel();
