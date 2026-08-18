@@ -7,12 +7,15 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ItemRenderer.class)
 public interface FirstPersonRendererAccessor {
-    @Accessor
-    void setItemToRender(ItemStack value);
-    @Accessor
-    void setEquippedItemSlot(int value);
-    @Accessor
-    void setEquippedProgress(float value);
-    @Accessor
-    void setPrevEquippedProgress(float value);
+    @Accessor("itemToRender")
+    void replaymodCompat$setItemToRender(ItemStack paramItemStack);
+
+    @Accessor("equippedItemSlot")
+    void replaymodCompat$setEquippedItemSlot(int paramInt);
+
+    @Accessor("equippedProgress")
+    void replaymodCompat$setEquippedProgress(float paramFloat);
+
+    @Accessor("prevEquippedProgress")
+    void replaymodCompat$setPrevEquippedProgress(float paramFloat);
 }

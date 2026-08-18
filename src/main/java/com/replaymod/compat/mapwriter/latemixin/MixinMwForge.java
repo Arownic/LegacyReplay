@@ -4,6 +4,7 @@ import cpw.mods.fml.common.network.FMLNetworkEvent;
 import mapwriter.forge.MwForge;
 import net.minecraft.network.NetworkManager;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -13,6 +14,7 @@ import java.net.SocketAddress;
 
 import static com.replaymod.compat.ReplayModCompat.LOGGER;
 
+@Pseudo
 @Mixin(MwForge.class)
 public abstract class MixinMwForge {
 

@@ -437,10 +437,10 @@ public class CameraEntity extends EntityClientPlayerMP {
                     lastHandRendered = player;
 
                     FirstPersonRendererAccessor acc = (FirstPersonRendererAccessor) mc.entityRenderer.itemRenderer;
-                    acc.setPrevEquippedProgress(1);
-                    acc.setEquippedProgress(1);
-                    acc.setItemToRender(player.inventory.getCurrentItem());
-                    acc.setEquippedItemSlot(player.inventory.currentItem);
+                    acc.replaymodCompat$setPrevEquippedProgress(1);
+                    acc.replaymodCompat$setEquippedProgress(1);
+                    acc.replaymodCompat$setItemToRender(player.inventory.getCurrentItem());
+                    acc.replaymodCompat$setEquippedItemSlot(player.inventory.currentItem);
 
                     mc.thePlayer.renderArmYaw = mc.thePlayer.prevRenderArmYaw = player.rotationYaw;
                     mc.thePlayer.renderArmPitch = mc.thePlayer.prevRenderArmPitch = player.rotationPitch;
