@@ -108,6 +108,7 @@ dependencies {
     shadow "com.github.Arownic:ReplayStudio:a17f0cb268", shadeExclusions
 
     compile 'blank:MapWriter:1.7.10-2.1.10'
+    compile 'blank:MoreHealth:6.3'
 
     shadow("blank:jGui:1.7.10-a4cf260"){
         transitive = false // FG 1.2 puts all MC deps into the compile configuration and we don't want to shade those
