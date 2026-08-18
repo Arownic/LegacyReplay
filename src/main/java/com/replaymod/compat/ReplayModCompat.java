@@ -3,6 +3,7 @@ package com.replaymod.compat;
 import com.replaymod.compat.morehealth.MoreHealthHudManager;
 import com.replaymod.compat.optifine.DisableFastRender;
 import com.replaymod.core.Module;
+import cpw.mods.fml.common.Loader;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,9 +18,11 @@ public class ReplayModCompat implements Module {
     public void initClient() {
         new DisableFastRender().register();
         new HideInvisibleEntities().register();
-        new MoreHealthHudManager().register();
-        MinecraftForge.EVENT_BUS.register(new MoreHealthHudManager());
         DisableBetterSprinting.register();
+        if (Loader.isModLoaded("morehealth")) {
+            new MoreHealthHudManager().register();
+            MinecraftForge.EVENT_BUS.register(new MoreHealthHudManager());
+        }
     }
 
 }
