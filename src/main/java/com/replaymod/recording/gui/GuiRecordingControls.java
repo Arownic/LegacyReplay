@@ -4,6 +4,7 @@ import com.replaymod.core.ReplayMod;
 import com.replaymod.core.utils.Utils;
 import com.replaymod.core.versions.MCVer;
 import com.replaymod.editor.gui.MarkerProcessor;
+import com.replaymod.recording.RecordingChunkResender;
 import com.replaymod.recording.packet.PacketListener;
 import de.johni0702.minecraft.gui.container.GuiPanel;
 import de.johni0702.minecraft.gui.container.VanillaGuiScreen;
@@ -43,6 +44,7 @@ public class GuiRecordingControls extends EventRegistrations {
         if (stopped) {
             paused = false;
             packetListener.addMarker(MarkerProcessor.MARKER_NAME_END_CUT);
+            RecordingChunkResender.resendLoadedChunks(this.packetListener);
             core.printInfoToChat("replaymod.chat.recordingstarted");
         } else {
             int timestamp = (int) packetListener.getCurrentDuration();

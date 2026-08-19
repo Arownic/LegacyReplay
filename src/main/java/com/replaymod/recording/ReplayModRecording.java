@@ -10,7 +10,6 @@ import com.replaymod.recording.handler.GuiHandler;
 import com.replaymod.recording.mixin.NetworkManagerAccessor;
 import com.replaymod.recording.packet.PacketListener;
 import io.netty.channel.Channel;
-import io.netty.util.AttributeKey;
 import net.minecraft.network.NetworkManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +21,7 @@ import io.netty.channel.ChannelHandler;
 
 public class ReplayModRecording implements Module {
 
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
 
     { instance = this; }
     public static ReplayModRecording instance;
