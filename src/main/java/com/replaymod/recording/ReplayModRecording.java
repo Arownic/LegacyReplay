@@ -21,7 +21,7 @@ import io.netty.channel.ChannelHandler;
 
 public class ReplayModRecording implements Module {
 
-    public static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     { instance = this; }
     public static ReplayModRecording instance;
