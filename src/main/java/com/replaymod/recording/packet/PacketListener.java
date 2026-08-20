@@ -295,7 +295,11 @@ public class PacketListener extends ChannelInboundHandlerAdapter {
 
                 if (packet instanceof FMLProxyPacket) {
                     // This packet requires special handling
-                    save(((FMLProxyPacket) packet).toS3FPacket());
+                    FMLProxyPacket proxy = (FMLProxyPacket) packet;
+                    ByteBuf buf = proxy.payload();
+                    byte[] data = new byte[buf.readableBytes()];
+                    buf.getBytes(buf.readerIndex(), data);
+                    save(new S3FPacketCustomPayload(proxy.channel(), data));
                     super.channelRead(ctx, msg);
                     return;
                 }
