@@ -1,5 +1,7 @@
 package com.replaymod.core;
 
+import com.gtnewhorizon.gtnhmixins.ILateMixinLoader;
+import com.gtnewhorizon.gtnhmixins.LateMixin;
 import net.minecraft.launchwrapper.Launch;
 import org.apache.logging.log4j.LogManager;
 import org.spongepowered.asm.launch.MixinBootstrap;
@@ -10,14 +12,12 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import com.replaymod.core.asm.GLErrorTransformer;
 import com.replaymod.core.asm.GLStateTrackerTransformer;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.CodeSource;
-import java.util.Map;
 
 @IFMLLoadingPlugin.TransformerExclusions("com.replaymod.core.asm.")
 public class LoadingPlugin implements IFMLLoadingPlugin {
@@ -34,6 +34,7 @@ public class LoadingPlugin implements IFMLLoadingPlugin {
         Mixins.addConfiguration("mixins.render.blend.replaymod.json");
         Mixins.addConfiguration("mixins.replay.replaymod.json");
         Mixins.addConfiguration("mixins.compat.mapwriter.replaymod.json");
+        Mixins.addConfiguration("mixins.compat.battlegear.replaymod.json");
         Mixins.addConfiguration("mixins.compat.shaders.replaymod.json");
         Mixins.addConfiguration("mixins.extras.playeroverview.replaymod.json");
 
@@ -86,4 +87,20 @@ public class LoadingPlugin implements IFMLLoadingPlugin {
         return null;
     }
 
+    @LateMixin
+    public static class MapwriterLateMixins implements ILateMixinLoader {
+
+        @Override
+        public String getMixinConfig() {
+            return "mixins.compat.mapwriter.late.replaymod.json";
+        }
+
+        @Override
+        public List<String> getMixins(Set<String> loadedMods) {
+            if (loadedMods.contains("MapWriter")) {
+                return Collections.singletonList("MixinMwForge");
+            }
+            return Collections.emptyList();
+        }
+    }
 }

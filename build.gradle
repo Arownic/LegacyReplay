@@ -48,7 +48,7 @@ compileJava {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-version = "0.1.0"
+version = "0.1.1"
 group= "com.replaymod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "LegacyReplay"
 
@@ -109,6 +109,7 @@ dependencies {
 
     compile 'blank:MapWriter:1.7.10-2.1.10'
     compile 'blank:MoreHealth:6.3'
+    compile 'blank:Battlegear2:1.0.8.3'
 
     shadow("blank:jGui:1.7.10-a4cf260"){
         transitive = false // FG 1.2 puts all MC deps into the compile configuration and we don't want to shade those

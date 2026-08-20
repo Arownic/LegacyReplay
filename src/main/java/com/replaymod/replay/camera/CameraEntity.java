@@ -7,7 +7,6 @@ import com.replaymod.core.events.KeyBindingEventCallback;
 import com.replaymod.core.events.PreRenderCallback;
 import com.replaymod.core.events.PreRenderHandCallback;
 import com.replaymod.core.events.SettingsChangedCallback;
-import com.replaymod.replay.ReplayHandler;
 import com.replaymod.replay.events.RenderHotbarCallback;
 import com.replaymod.replay.events.RenderSpectatorCrosshairCallback;
 import de.johni0702.minecraft.gui.utils.EventRegistrations;
@@ -18,21 +17,15 @@ import com.replaymod.replay.Setting;
 import com.replaymod.replay.mixin.FirstPersonRendererAccessor;
 import com.replaymod.replaystudio.util.Location;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.AxisAlignedBB;
 
-import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 import com.replaymod.replay.events.ReplayChatMessageEvent;
@@ -329,6 +322,10 @@ public class CameraEntity extends EntityClientPlayerMP {
             eventHandler.unregister();
             eventHandler = null;
         }
+    }
+    @Override
+    public String getCommandSenderName() {
+        return "~PlayerCamera";
     }
 
     private void update() {

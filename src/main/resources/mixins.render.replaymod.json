@@ -4,6 +4,7 @@
   "mixins": [],
   "server": [],
   "client": [
+    "MainWindowAccessor",
     "Mixin_ChromaKeyColorSky",
     "Mixin_ChromaKeyDisableFog",
     "Mixin_ChromaKeyForceSky",
@@ -18,12 +19,11 @@
     "Mixin_StabilizeCamera",
     "Mixin_Stereoscopic_Camera",
     "Mixin_Stereoscopic_HandRenderPass",
-    "MainWindowAccessor",
-    "WorldRendererAccessor",
     "MixinEffectRenderer",
     "MixinEntityRenderer",
     "MixinOpenGlHelper",
-    "MixinRenderManager"
+    "MixinRenderManager",
+    "WorldRendererAccessor"
   ],
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.6.11",

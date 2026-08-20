@@ -3,7 +3,7 @@
     "modid": "replaymod",
     "name": "Legacy Replay",
     "description": "A Mod based on ReplayMod which allows you to record, replay and share your Minecraft experience.",
-    "version": "0.1.0",
+    "version": "$version",
     "mcversion": "1.7.10",
     "url": "https://replaymod.com",
     "updateUrl": "https://replaymod.com/download",
