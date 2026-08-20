@@ -3,7 +3,6 @@ package com.replaymod.recording.handler;
 import com.replaymod.core.ReplayMod;
 import com.replaymod.core.utils.ModCompat;
 import com.replaymod.core.utils.Utils;
-import com.replaymod.core.versions.MCVer;
 import com.replaymod.editor.gui.MarkerProcessor;
 import com.replaymod.recording.ServerInfoExt;
 import com.replaymod.recording.Setting;
@@ -13,6 +12,7 @@ import com.replaymod.recording.mixin.NetworkManagerAccessor;
 import com.replaymod.recording.packet.PacketListener;
 import com.replaymod.replaystudio.replay.ReplayFile;
 import com.replaymod.replaystudio.replay.ReplayMetaData;
+import cpw.mods.fml.common.Loader;
 import io.netty.channel.Channel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
@@ -116,6 +116,10 @@ public class ConnectionEventHandler {
 
             guiOverlay = new GuiRecordingOverlay(mc, core.getSettingsRegistry(), guiControls);
             guiOverlay.register();
+
+            if (Loader.isModLoaded("battlegear2") && !Loader.isModLoaded("battlepatches")) {
+                core.printWarningToChat("replaymod.chat.battlegearwarning");
+            }
 
             if (autoStart) {
                 core.printInfoToChat("replaymod.chat.recordingstarted");

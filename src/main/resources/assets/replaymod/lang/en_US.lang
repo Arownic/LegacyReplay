@@ -1,4 +1,4 @@
-replaymod.title=Replay Mod
+replaymod.title=LegacyReplay
 
 #Website API translations
 replaymod.api.parammissing=Required parameter missing: %1$s
@@ -37,6 +37,8 @@ replaymod.chat.savedthumb=Thumbnail has been successfully saved
 replaymod.chat.failedthumb=Thumbnail could not be saved
 
 replaymod.chat.addedmarker=Event Marker has been added
+
+replaymod.chat.battlegearwarning=Battlegear2 is installed! This mod is known to show weird behavior in replays. Please install BattlePatches to fix this behavior.
 
 #Chat messages displayed in Replay Viewer
 replaymod.chat.morekeyframes=At least 2 position keyframes and 2 time keyframes required
