@@ -11,9 +11,6 @@ import com.replaymod.core.utils.Restrictions;
 import com.replaymod.replay.camera.CameraEntity;
 import com.replaymod.replaystudio.io.ReplayInputStream;
 import com.replaymod.replaystudio.replay.ReplayFile;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
-import cpw.mods.fml.relauncher.Side;
 import de.johni0702.minecraft.gui.utils.EventRegistrations;
 import de.johni0702.minecraft.gui.versions.callbacks.PreTickCallback;
 import io.netty.buffer.ByteBuf;
@@ -30,7 +27,6 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.EnumConnectionState;
-import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.S02PacketChat;
@@ -338,16 +334,10 @@ public class FullReplaySender extends ChannelDuplexHandler implements ReplaySend
                 Packet p = deserializePacket((byte[]) msg);
 
                 if (p != null) {
-                    if ((p = this.processPacket(p)) != null) {
-                        if (!tryDispatchToFmlChannel(p, this.mc.getNetHandler())) {
-                            super.channelRead(ctx, (Object) p);
-                        }
-                    }
-                    /**
                     p = processPacket(p);
                     if (p != null) {
                         super.channelRead(ctx, p);
-                    }**/
+                    }
 
                     // If we do not give minecraft time to tick, there will be dead entity artifacts left in the world
                     // Therefore we have to remove all loaded, dead entities manually if we are in sync mode.
@@ -386,25 +376,6 @@ public class FullReplaySender extends ChannelDuplexHandler implements ReplaySend
             }
         }
 
-    }
-
-    private boolean tryDispatchToFmlChannel(Packet p, INetHandler netHandler) {
-        if (!(p instanceof S3FPacketCustomPayload)) {
-            return false;
-        }
-        S3FPacketCustomPayload payload = (S3FPacketCustomPayload) p;
-        String channelName = payload.func_149169_c();
-
-        if ("FML".equals(channelName)) {
-            return false; // reserved Forge internal channel — leave to vanilla handling
-        }
-
-        if (NetworkRegistry.INSTANCE.getChannel(channelName, Side.CLIENT) == null) {
-            return false;
-        }
-
-        new FMLProxyPacket(payload).processPacket(netHandler);
-        return true;
     }
 
     private Packet deserializePacket(byte[] bytes) throws IOException, IllegalAccessException, InstantiationException {

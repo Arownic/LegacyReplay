@@ -417,16 +417,22 @@ public class ReplayHandler {
         }
     }
 
-    public void doJump(int targetTime, boolean retainCameraPosition) {
+    public void doJump(int _targetTime, boolean retainCameraPosition) {
+        int targetTime = _targetTime;
         FullReplaySender replaySender = fullReplaySender;
 
         if (replaySender.isHurrying()) {
             return; // When hurrying, no Timeline jumping etc. is possible
         }
 
-        if (targetTime < replaySender.currentTimeStamp()) {
+        if (_targetTime < replaySender.currentTimeStamp()) {
             mc.displayGuiScreen(null);
         }
+
+        if (_targetTime >= (replaySender.replayLength - 50)) {
+            targetTime = replaySender.replayLength-50;
+        }
+        LOGGER.info("Target Time: {}, Replay Length: {}", targetTime, replaySender.replayLength);
 
         if (retainCameraPosition) {
             CameraEntity cam = getCameraEntity();
